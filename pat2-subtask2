@@ -1,0 +1,56 @@
+#include <iostream>
+#include <map>
+#include <string>
+#include <cctype>
+
+using namespace std;
+
+// Define Morse code mappings with ASCII values
+map<char, string> morseCode = {
+    {'A', ".-"},   {'B', "-..."}, {'C', "-.-."}, {'D', "-.."},  {'E', "."},    
+    {'F', "..-."}, {'G', "--."},  {'H', "...."}, {'I', ".."},   {'J', ".---"}, 
+    {'K', "-.-"},  {'L', ".-.."}, {'M', "--"},   {'N', "-."},   {'O', "---"},  
+    {'P', ".--."}, {'Q', "--.-"}, {'R', ".-."},  {'S', "..."},  {'T', "-"},    
+    {'U', "..-"},  {'V', "...-"}, {'W', ".--"},  {'X', "-..-"}, {'Y', "-.--"}, 
+    {'Z', "--.."}, {'0', "-----"},{'1', ".----"},{'2', "..---"},{'3', "...--"},
+    {'4', "....-"},{'5', "....."},{'6', "-...."},{'7', "--..."},{'8', "---.."},
+    {'9', "----."},{' ', " "} // Space handling
+};
+
+string translateToMorse(string message) {
+    string fullMorseMessage = "";
+    for (char c : message) {
+        c = toupper(c);
+        if (morseCode.count(c)) {
+            string morseRepresentation = morseCode[c];
+            string asciiMorse = "";
+
+            // Replace dots and dashes with ASCII values
+            for (char symbol : morseRepresentation) {
+                if (symbol == '.') {
+                    asciiMorse += char(46); // ASCII for dot (.)
+                } else if (symbol == '-') {
+                    asciiMorse += char(45); // ASCII for dash (-)
+                }
+            }
+
+            cout << c << ": " << asciiMorse << endl;
+            fullMorseMessage += asciiMorse + "   "; // Three spaces between words
+        }
+    }
+    return fullMorseMessage;
+}
+
+int main() {
+    string message;
+    cout << "Enter a short message: ";
+    getline(cin, message);
+    
+    cout << "\nMorse Code Translation:\n";
+    string morseMessage = translateToMorse(message);
+    
+    cout << "\nFull Morse Code Message:\n" << morseMessage << endl;
+    
+    return 0;
+}
+
